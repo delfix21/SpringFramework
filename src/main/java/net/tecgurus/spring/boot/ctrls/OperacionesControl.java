@@ -1,5 +1,6 @@
 package net.tecgurus.spring.boot.ctrls;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -7,11 +8,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.tecgurus.boot.model.Banco;
+import net.tecgurus.boot.repository.BancoRepository;
 import net.tecgurus.spring.boot.dto.PeticionConsulta;
+import net.tecgurus.spring.boot.dto.PeticionCrearBanco;
 import net.tecgurus.spring.boot.dto.RespuestaConsulta;
 
 @RestController
 public class OperacionesControl {
+	
+	
+	@Autowired
+	private BancoRepository bancoRepository;
+	
+	/*
+	 * CRUD  Banco
+	 * */
+	
+	@RequestMapping(value = "/banco/ingresar", method = RequestMethod.POST)
+	public boolean ingresaBanco(@RequestBody PeticionCrearBanco peticion) {
+		Banco b =  bancoRepository.save(peticion.getBanco());
+		return b!=null;
+	}
+	
 	@RequestMapping("/hola2")
 	public String hola() {
 		return "Ola k hace?..."; 	
